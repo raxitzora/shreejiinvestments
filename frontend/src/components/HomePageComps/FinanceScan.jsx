@@ -79,7 +79,7 @@ function calculate(data) {
 }
 
 function Choice({label,selected,onClick,icon:Icon,multiple=false}) {
-  return <button type="button" aria-pressed={selected} onClick={onClick} className={classNames("flex min-h-11 w-full items-center gap-2 rounded-xl border px-3 py-2.5 text-left text-sm font-medium transition-all duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-800",selected?"border-blue-800 bg-blue-50 dark:bg-blue-950/60 text-blue-950 dark:text-blue-100 shadow-sm dark:border-blue-400 dark:bg-blue-950/70 dark:text-blue-100":"border-slate-200 dark:border-slate-700 bg-white dark:border-slate-700 dark:bg-slate-900 text-slate-700 dark:text-slate-300 hover:border-blue-200 hover:bg-blue-50 dark:bg-blue-950/60/40 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:border-blue-500 dark:hover:bg-slate-700")}>
+  return <button type="button" aria-pressed={selected} onClick={onClick} className={classNames("flex min-h-11 w-full items-center gap-2 rounded-xl border px-3 py-2.5 text-left text-sm font-medium transition-all duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-800",selected?"border-blue-800 bg-blue-50 dark:bg-blue-950/60 text-blue-950 dark:text-blue-100 shadow-sm dark:border-blue-400 dark:bg-blue-950/70 dark:text-blue-100":"border-slate-200 dark:border-slate-700 bg-white dark:border-slate-700 dark:bg-slate-900 text-slate-700 dark:text-slate-300 hover:border-blue-200 hover:bg-blue-50 dark:hover:bg-slate-800 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:border-blue-500 dark:hover:bg-slate-700")}>
     {Icon&&<Icon size={19} aria-hidden="true" className={selected?"text-blue-600 dark:text-blue-400":"text-slate-400 dark:text-slate-400"}/>}
     <span className="flex-1">{label}</span>
     <span aria-hidden="true" className={classNames("flex h-5 w-5 items-center justify-center border",multiple?"rounded-md":"rounded-full",selected?"border-blue-800 bg-blue-800 text-white":"border-slate-300 dark:border-slate-500")}>{selected&&<Check size={13}/>}</span>
@@ -116,7 +116,7 @@ function Report({data,result,reduced,onRestart}) {
     <div className="grid gap-5 md:grid-cols-2"><div className="rounded-3xl border border-slate-200 dark:border-slate-700 bg-white dark:border-slate-700 dark:bg-slate-900 p-6 sm:p-7"><h4 className="text-lg font-semibold text-slate-900 dark:text-slate-100">Key insights</h4><ul className="mt-4 space-y-3">{result.insights.map(t=><li key={t} className="text-sm leading-6 text-slate-600 dark:text-slate-300">• {t}</li>)}</ul></div><div className="rounded-3xl border border-slate-200 dark:border-slate-700 bg-white dark:border-slate-700 dark:bg-slate-900 p-6 sm:p-7"><h4 className="text-lg font-semibold text-slate-900 dark:text-slate-100">Personalized next steps</h4><ol className="mt-4 space-y-3">{result.next.map((t,i)=><li key={t} className="flex gap-3 text-sm leading-6 text-slate-600 dark:text-slate-300"><span className="font-semibold text-blue-600 dark:text-blue-400">{i+1}.</span>{t}</li>)}</ol></div></div>
     <p className="text-xs leading-6 text-slate-500 dark:text-slate-400">This assessment is for educational purposes only. It does not assess product suitability, verify insurance coverage, or replace advice from a qualified professional. All calculations were performed locally in your browser.</p>
     <div className="print:hidden flex flex-wrap gap-3"><button type="button" onClick={printReport} className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-blue-600 px-5 font-semibold text-white hover:bg-blue-700"><Download size={18}/> Print / Save as PDF</button><button type="button" onClick={share} className="inline-flex min-h-12 items-center gap-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:border-slate-700 dark:bg-slate-900 px-5 font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 dark:bg-slate-800"><Share2 size={18}/> Share Report</button></div>{feedback&&<p role="status" className="print:hidden text-sm text-slate-600 dark:text-slate-300">{feedback}</p>}
-    <div className="print:hidden rounded-3xl bg-slate-950 px-6 dark:bg-blue-950 py-10 text-center text-white sm:px-12"><h4 className="text-2xl font-semibold sm:text-3xl">Your Financial Future Deserves More Than a Score.</h4><p className="mx-auto mt-3 max-w-2xl text-sm leading-7 text-slate-300">Your financial scan is the starting point. Connect with Shreeji Investments to discuss your goals, understand your options, and explore your next steps.</p><div className="mt-7 flex flex-wrap justify-center gap-3"><Link href="/contact-us" className="inline-flex min-h-12 items-center rounded-xl bg-blue-50 dark:bg-blue-950/600 px-5 font-semibold text-white hover:bg-blue-400">Book Your Free Consultation <ArrowRight size={17} className="ml-2"/></Link><Link href="/services" className="inline-flex min-h-12 items-center rounded-xl border border-slate-600 dark:border-slate-500 px-5 font-semibold text-white hover:bg-slate-800">Explore Our Services</Link></div></div>
+    <div className="print:hidden rounded-3xl bg-slate-950 px-6 dark:bg-blue-950 py-10 text-center text-white sm:px-12"><h4 className="text-2xl font-semibold sm:text-3xl">Your Financial Future Deserves More Than a Score.</h4><p className="mx-auto mt-3 max-w-2xl text-sm leading-7 text-slate-300">Your financial scan is the starting point. Connect with Shreeji Investments to discuss your goals, understand your options, and explore your next steps.</p><div className="mt-7 flex flex-wrap justify-center gap-3"><Link href="/contact-us" className="inline-flex min-h-12 items-center rounded-xl bg-blue-50 dark:bg-blue-600 px-5 font-semibold text-white hover:bg-blue-400">Book Your Free Consultation <ArrowRight size={17} className="ml-2"/></Link><Link href="/services" className="inline-flex min-h-12 items-center rounded-xl border border-slate-600 dark:border-slate-500 px-5 font-semibold text-white hover:bg-slate-800">Explore Our Services</Link></div></div>
   </motion.div>;
 }
 
@@ -135,85 +135,33 @@ const questions = [
 ];
 
 function FinancialGlobe({ reduced = false }) {
+  const spin = reduced ? undefined : { rotate: 360 };
   return (
-    <div
-      aria-label="Animated Shreeji Investments financial globe"
-      role="img"
-      className="relative mx-auto flex h-[280px] w-full max-w-[540px] items-center justify-center sm:h-[360px] xl:h-[430px]"
-    >
-      {/* Soft ambient light — no outer card or border */}
-      <div aria-hidden="true" className="absolute h-[75%] w-[75%] rounded-full bg-blue-100/45 dark:bg-blue-500/15 blur-[75px]" />
-
-      {/* Orbiting details, independent of the globe's rotation */}
-      <motion.div
-        aria-hidden="true"
-        className="absolute h-[90%] w-[90%] rounded-full border border-blue-200/40 dark:border-blue-400/30"
-        style={{ rotateX: 66, rotate: -20 }}
-        animate={reduced ? undefined : { rotate: [ -20, 340 ] }}
-        transition={{ duration: 32, ease: "linear", repeat: Infinity }}
-      />
-      <motion.div
-        aria-hidden="true"
-        className="absolute h-[74%] w-[74%] rounded-full border border-dashed border-blue-300/35 dark:border-blue-400/30"
-        style={{ rotateX: 64, rotate: 25 }}
-        animate={reduced ? undefined : { rotate: [25, -335] }}
-        transition={{ duration: 40, ease: "linear", repeat: Infinity }}
-      />
-
-      {/* The globe itself: horizontal spin instead of spinning the whole illustration */}
-      <motion.div
-        aria-hidden="true"
-        className="relative h-[68%] aspect-square overflow-hidden rounded-full bg-gradient-to-br from-white via-blue-50 to-blue-100 dark:from-slate-800 dark:via-blue-950 dark:to-slate-900 shadow-[inset_-22px_-16px_40px_rgba(30,64,175,0.12),0_24px_70px_-38px_rgba(30,58,138,0.3)]"
-        animate={reduced ? undefined : { y: [0, -8, 0] }}
-        transition={{ duration: 5.5, ease: "easeInOut", repeat: Infinity }}
-      >
-        <div className="absolute left-[14%] top-[12%] h-[28%] w-[36%] rounded-full bg-white/70 dark:bg-blue-200/10 blur-2xl" />
-        <motion.svg
-          viewBox="0 0 400 400"
-          fill="none"
-          className="absolute inset-0 h-full w-full text-blue-800/35"
-          animate={reduced ? undefined : { x: [0, -48, 0] }}
-          transition={{ duration: 16, ease: "easeInOut", repeat: Infinity }}
-        >
-          <circle cx="200" cy="200" r="165" stroke="currentColor" strokeWidth="1.5" />
-          <ellipse cx="200" cy="200" rx="65" ry="165" stroke="currentColor" strokeWidth="1.5" />
-          <ellipse cx="200" cy="200" rx="125" ry="165" stroke="currentColor" strokeWidth="1.5" />
-          <path d="M35 200h330M65 118h270M65 282h270" stroke="currentColor" strokeWidth="1.5" />
-          <path d="M95 70c55 38 155 38 210 0M95 330c55-38 155-38 210 0" stroke="currentColor" strokeWidth="1.5" />
+    <div role="img" aria-label="Shreeji Investments premium animated financial globe" className="relative mx-auto flex h-[300px] w-full max-w-[540px] items-center justify-center sm:h-[390px] xl:h-[460px]">
+      <div aria-hidden="true" className="absolute h-[78%] w-[78%] rounded-full bg-blue-300/20 blur-[75px] dark:bg-blue-500/15" />
+      <div aria-hidden="true" className="absolute h-[65%] w-[65%] rounded-full bg-indigo-200/20 blur-[55px] dark:bg-indigo-400/10" />
+      <motion.div aria-hidden="true" className="absolute h-[91%] w-[91%] rounded-full border border-blue-200/70 dark:border-blue-500/25" style={{ rotateX: 67 }} animate={spin} transition={{ duration: 46, ease: "linear", repeat: Infinity }} />
+      <motion.div aria-hidden="true" className="absolute h-[77%] w-[77%] rounded-full border border-dashed border-sky-300/60 dark:border-sky-500/25" style={{ rotateX: 64, rotate: 35 }} animate={reduced ? undefined : { rotate: -325 }} transition={{ duration: 52, ease: "linear", repeat: Infinity }} />
+      <motion.div aria-hidden="true" className="relative flex aspect-square h-[66%] items-center justify-center overflow-hidden rounded-full border border-white/80 bg-[radial-gradient(circle_at_30%_22%,#ffffff_0%,#e9f3ff_37%,#bed9f5_76%,#8eb5e0_100%)] shadow-[inset_-25px_-24px_48px_rgba(30,64,175,.16),0_26px_70px_-35px_rgba(37,99,235,.36)] dark:border-blue-300/15 dark:bg-[radial-gradient(circle_at_30%_22%,#334e78_0%,#172d50_45%,#0b1730_100%)] dark:shadow-[inset_-25px_-24px_48px_rgba(2,6,23,.55),0_26px_75px_-30px_rgba(37,99,235,.18)]" animate={reduced ? undefined : { y: [0, -7, 0] }} transition={{ duration: 6.5, repeat: Infinity, ease: "easeInOut" }}>
+        <div className="pointer-events-none absolute left-[15%] top-[10%] h-[35%] w-[40%] rounded-full bg-white/50 blur-2xl dark:bg-sky-300/10" />
+        <motion.svg aria-hidden="true" viewBox="0 0 400 400" className="absolute inset-0 h-full w-full text-blue-700/35 dark:text-sky-300/35" fill="none" animate={reduced ? undefined : { x: [0, -26, 0] }} transition={{ duration: 18, ease: "easeInOut", repeat: Infinity }}>
+          <circle cx="200" cy="200" r="166" stroke="currentColor" strokeWidth="1.5" />
+          <ellipse cx="200" cy="200" rx="62" ry="166" stroke="currentColor" strokeWidth="1.3" />
+          <ellipse cx="200" cy="200" rx="121" ry="166" stroke="currentColor" strokeWidth="1.3" />
+          <path d="M34 200h332M63 120h274M63 280h274M95 71c55 38 155 38 210 0M95 329c55-38 155-38 210 0" stroke="currentColor" strokeWidth="1.3" />
+          <path d="M48 250 120 226 166 242 224 167 271 185 348 110" stroke="#3b82f6" strokeOpacity=".38" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
         </motion.svg>
-        <div className="pointer-events-none absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-transparent to-blue-900/10" />
+        <div className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-transparent to-blue-950/10 dark:to-slate-950/35" />
       </motion.div>
-
-      {/* Branding remains readable while the globe moves behind it */}
-      <motion.div
-        className="absolute z-10 flex flex-col items-center rounded-2xl bg-white/90 dark:bg-slate-900/90 px-5 py-3 text-center shadow-[0_12px_40px_-20px_rgba(15,23,42,0.22)] backdrop-blur-md sm:px-7 sm:py-4"
-        animate={reduced ? undefined : { y: [0, -5, 0] }}
-        transition={{ duration: 6, ease: "easeInOut", repeat: Infinity }}
-      >
-        <span className="text-base font-bold tracking-[-0.035em] text-slate-950 dark:text-slate-50 sm:text-xl">
-          Shreeji <span className="text-blue-800 dark:text-blue-300">Investments</span>
-        </span>
-        <span className="mt-1 text-[10px] font-medium tracking-[0.08em] text-slate-500 dark:text-slate-400 sm:text-xs">
-          Planning Today. Securing Tomorrow.
-        </span>
+      <motion.div className="absolute z-10 flex min-w-[225px] flex-col items-center rounded-2xl border border-white/80 bg-white/90 px-6 py-4 text-center shadow-[0_20px_55px_-25px_rgba(15,23,42,.28)] backdrop-blur-xl dark:border-slate-600/60 dark:bg-slate-900/90 sm:min-w-[265px] sm:px-8 sm:py-5" animate={reduced ? undefined : { y: [0, -5, 0] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}>
+        <span className="mb-2 h-0.5 w-9 rounded-full bg-gradient-to-r from-sky-300 via-blue-500 to-indigo-400" />
+        <span className="text-xl font-bold tracking-[-.045em] text-slate-950 dark:text-white sm:text-2xl">Shreeji <span className="bg-gradient-to-r from-blue-800 to-indigo-600 bg-clip-text text-transparent dark:from-sky-300 dark:to-indigo-300">Investments</span></span>
+        <span className="mt-2 text-[10px] font-medium tracking-[.09em] text-slate-500 dark:text-slate-300 sm:text-xs">Planning Today. Securing Tomorrow.</span>
       </motion.div>
-
-      <motion.div
-        aria-hidden="true"
-        className="absolute left-[9%] top-[18%] flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-blue-800 dark:text-blue-300 dark:bg-slate-800 dark:text-blue-300 shadow-[0_12px_30px_-12px_rgba(30,58,138,0.25)]"
-        animate={reduced ? undefined : { y: [0, -9, 0] }}
-        transition={{ duration: 4.5, ease: "easeInOut", repeat: Infinity }}
-      >
-        <TrendingUp size={21} strokeWidth={1.8} />
-      </motion.div>
-      <motion.div
-        aria-hidden="true"
-        className="absolute bottom-[14%] right-[10%] flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-blue-800 dark:text-blue-300 dark:bg-slate-800 dark:text-blue-300 shadow-[0_12px_30px_-12px_rgba(30,58,138,0.25)]"
-        animate={reduced ? undefined : { y: [0, 9, 0] }}
-        transition={{ duration: 5, ease: "easeInOut", repeat: Infinity }}
-      >
-        <ShieldCheck size={21} strokeWidth={1.8} />
-      </motion.div>
+      <motion.div aria-hidden="true" className="absolute left-[7%] top-[18%] flex h-12 w-12 items-center justify-center rounded-2xl border border-blue-100 bg-white/90 text-blue-700 shadow-[0_12px_32px_-15px_rgba(30,58,138,.25)] backdrop-blur-md dark:border-slate-700 dark:bg-slate-800/90 dark:text-sky-300" animate={reduced ? undefined : { y: [0, -10, 0] }} transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}><TrendingUp size={23} strokeWidth={1.7} /></motion.div>
+      <motion.div aria-hidden="true" className="absolute bottom-[16%] right-[8%] flex h-12 w-12 items-center justify-center rounded-2xl border border-blue-100 bg-white/90 text-blue-700 shadow-[0_12px_32px_-15px_rgba(30,58,138,.25)] backdrop-blur-md dark:border-slate-700 dark:bg-slate-800/90 dark:text-sky-300" animate={reduced ? undefined : { y: [0, 9, 0] }} transition={{ duration: 5.8, repeat: Infinity, ease: "easeInOut" }}><ShieldCheck size={23} strokeWidth={1.7} /></motion.div>
+      <div aria-hidden="true" className="absolute bottom-[8%] left-[16%] h-1.5 w-1.5 rounded-full bg-sky-400/70 shadow-[0_0_14px_4px_rgba(56,189,248,.15)]" />
+      <div aria-hidden="true" className="absolute right-[17%] top-[10%] h-2 w-2 rounded-full bg-blue-400/50 shadow-[0_0_14px_4px_rgba(96,165,250,.12)]" />
     </div>
   );
 }
@@ -287,8 +235,8 @@ export default function FinanceScan() {
           ) : index === questions.length && report ? (
             <div><h2 className="sr-only">Financial wellness report</h2><Report data={data} result={report} reduced={reduced} onRestart={restart} /></div>
           ) : (
-            <div className="grid w-full items-center gap-6 lg:min-h-[calc(100svh-7rem)] lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-12">
-              <div className="w-full min-w-0 max-w-[490px] rounded-[1.75rem] border border-slate-200 dark:border-slate-700/80 bg-white dark:border-slate-700 dark:bg-slate-900 p-4 shadow-[0_20px_60px_-40px_rgba(15,23,42,.16)] sm:p-5 lg:p-6">
+            <div className="grid w-full items-center gap-6 lg:min-h-[calc(100svh-7rem)] lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:gap-12">
+              <div className="w-full min-w-0 max-w-[560px] rounded-[1.75rem] border border-slate-200 dark:border-slate-700/80 bg-white dark:border-slate-700 dark:bg-slate-900 p-4 shadow-[0_20px_60px_-40px_rgba(15,23,42,.16)] sm:p-5 lg:p-6">
               <div className="mb-4 flex items-center justify-between gap-4">
                 <div><p className="text-xs font-semibold uppercase tracking-[0.18em] text-blue-800 dark:text-blue-300">{steps[question.stage]}</p><p className="mt-1 text-sm text-slate-500 dark:text-slate-400">Question {index + 1} of {questions.length}</p></div>
                 <span className="rounded-full bg-blue-50 dark:bg-blue-950/60 px-3 py-1 text-sm font-semibold tabular-nums text-blue-900 dark:text-blue-200">{Math.round((index / questions.length) * 100)}%</span>
@@ -326,20 +274,12 @@ export default function FinanceScan() {
                 </motion.div>
               </AnimatePresence>
               <div className="mx-auto mt-5 flex max-w-2xl flex-col-reverse justify-between gap-3 border-t border-slate-100 dark:border-slate-700 pt-4 sm:flex-row">
-                <button type="button" onClick={back} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:border-slate-700 dark:bg-slate-900 px-6 text-sm font-semibold text-slate-800 dark:text-slate-200 shadow-sm transition duration-200 hover:border-blue-200 hover:bg-blue-50 dark:bg-blue-950/60/60"><ArrowLeft size={17} /> Back</button>
+                <button type="button" onClick={back} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:border-slate-700 dark:bg-slate-900 px-6 text-sm font-semibold text-slate-800 dark:text-slate-200 shadow-sm transition duration-200 hover:border-blue-200 hover:bg-blue-50 dark:hover:bg-slate-800"><ArrowLeft size={17} /> Back</button>
                 <button type="button" onClick={advance} className={button}>{index === questions.length - 1 ? "Scan My Finances" : "Continue"} <ArrowRight size={17} /></button>
               </div>
               </div>
-              <aside aria-label="Financial wellness illustration" className="relative hidden min-h-[330px] items-center justify-center lg:flex lg:min-h-[min(500px,calc(100svh-9rem))]">
-                <div aria-hidden="true" className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-blue-100/60 dark:bg-blue-500/15 blur-3xl" />
-                <div className="relative flex flex-col items-center gap-2 px-5 text-center">
-                  <FinancialGlobe reduced={reduced} />
-                  <div>
-                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-blue-800 dark:text-blue-300">Shreeji Investments</p>
-                    <h3 className="mt-3 text-2xl font-semibold tracking-tight text-slate-950 dark:text-slate-50">Your future, thoughtfully planned.</h3>
-                    <p className="mx-auto mt-3 max-w-sm text-sm leading-7 text-slate-600 dark:text-slate-300">A clearer picture of your finances begins with one question at a time.</p>
-                  </div>
-                </div>
+              <aside aria-label="Shreeji Investments financial globe" className="relative flex min-h-[310px] items-center justify-center lg:min-h-[min(500px,calc(100svh-9rem))]">
+                <FinancialGlobe reduced={reduced} />
               </aside>
             </div>
           )}

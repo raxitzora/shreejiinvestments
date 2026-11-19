@@ -18,11 +18,34 @@ const insights = [
   { label: "Investor Support", value: "Expert Guidance", detail: "Here to Help", icon: Headphones },
 ];
 
+function FocusWords({ children }) {
+  return (
+    <span className="hero-focus-border relative inline-flex rounded-[0.22em] p-[1.5px] align-baseline">
+      <span className="hero-focus-fill relative inline-block rounded-[0.19em] px-[0.12em] py-[0.015em] leading-[1.13]">
+        {children}
+      </span>
+    </span>
+  );
+}
+
 function AmbientMarketBackground({ reducedMotion }) {
   return (
     <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
       <div className="market-ambient market-ambient-one absolute -left-32 top-[8%] h-[28rem] w-[28rem] rounded-full bg-sky-200/35 blur-[95px] dark:bg-blue-700/15" />
       <div className="market-ambient market-ambient-two absolute -right-32 bottom-[4%] h-[30rem] w-[30rem] rounded-full bg-indigo-200/30 blur-[105px] dark:bg-indigo-600/15" />
+      {/* Soft, offset square tiles create depth without distracting from the headline. */}
+      <div className="absolute inset-0 overflow-hidden opacity-55 dark:opacity-35">
+        {[
+          ["left-[8%] top-[12%]", "h-16 w-16", "0s"],
+          ["left-[21%] top-[67%]", "h-10 w-10", "-5s"],
+          ["right-[11%] top-[14%]", "h-20 w-20", "-9s"],
+          ["right-[22%] bottom-[16%]", "h-12 w-12", "-3s"],
+          ["left-[48%] bottom-[7%]", "h-8 w-8", "-12s"],
+        ].map(([position, size, delay], i) => (
+          <div key={i} className={`hero-square absolute ${position} ${size} rounded-xl border border-blue-300/45 bg-blue-200/10 dark:border-blue-400/25 dark:bg-blue-400/5`}
+            style={{ animationDelay: delay, animationPlayState: reducedMotion ? "paused" : "running" }} />
+        ))}
+      </div>
       <svg viewBox="0 0 1440 800" preserveAspectRatio="xMidYMid slice" className="absolute inset-0 h-full w-full opacity-45 dark:opacity-30">
         <defs>
           <pattern id="hero-market-grid" width="76" height="76" patternUnits="userSpaceOnUse">
@@ -48,12 +71,54 @@ function AmbientMarketBackground({ reducedMotion }) {
           ))}
         </motion.g>
       </svg>
-      <style jsx>{`
+      <style jsx global>{`
+        @keyframes hero-square-float {
+          0%, 100% { transform: translate3d(0, 0, 0) rotate(-8deg); opacity: .35; }
+          50% { transform: translate3d(15px, -22px, 0) rotate(8deg); opacity: .75; }
+        }
+        .hero-square { animation: hero-square-float 19s ease-in-out infinite; }
+        /* A restrained moving highlight, rather than a saturated outline. */
+        @keyframes hero-border-flow {
+          from { background-position: 0% 50%; }
+          to { background-position: 200% 50%; }
+        }
+        @keyframes hero-fill-flow {
+          from { background-position: 0% 50%; }
+          to { background-position: 200% 50%; }
+        }
+        .hero-focus-border {
+          background: linear-gradient(105deg,
+            #bfdbfe 0%, #93c5fd 18%, #e0f2fe 32%,
+            #60a5fa 48%, #dbeafe 62%, #93c5fd 80%, #bfdbfe 100%);
+          background-size: 260% 100%;
+          animation: hero-border-flow 4.5s linear infinite;
+          box-shadow: 0 2px 12px rgba(59, 130, 246, .055);
+        }
+        .hero-focus-fill {
+          color: #1e40af;
+          background: linear-gradient(110deg,
+            #f8fbff 0%, #eff6ff 26%, #dbeafe 48%, #f8fbff 72%, #eff6ff 100%);
+          background-size: 240% 100%;
+          animation: hero-fill-flow 7s linear infinite;
+        }
+        html.dark .hero-focus-border {
+          background: linear-gradient(105deg,
+            #334155 0%, #475569 22%, #64748b 38%,
+            #60a5fa 49%, #475569 61%, #334155 80%, #475569 100%);
+          background-size: 260% 100%;
+          box-shadow: 0 2px 12px rgba(96, 165, 250, .07);
+        }
+        html.dark .hero-focus-fill {
+          color: #bfdbfe;
+          background: linear-gradient(110deg,
+            #0f172a 0%, #17233a 32%, #1e3a5f 50%, #0f172a 75%, #17233a 100%);
+          background-size: 240% 100%;
+        }
         @keyframes market-drift-one { 0%, 100% { transform: translate3d(0,0,0); } 50% { transform: translate3d(45px,-25px,0); } }
         @keyframes market-drift-two { 0%, 100% { transform: translate3d(0,0,0); } 50% { transform: translate3d(-40px,30px,0); } }
         .market-ambient-one { animation: market-drift-one 24s ease-in-out infinite; }
         .market-ambient-two { animation: market-drift-two 29s ease-in-out infinite; }
-        @media (prefers-reduced-motion: reduce) { .market-ambient-one, .market-ambient-two { animation: none; } }
+        @media (prefers-reduced-motion: reduce) { .market-ambient-one, .market-ambient-two, .hero-square, .hero-focus-border, .hero-focus-fill { animation: none; } }
       `}</style>
     </div>
   );
@@ -81,11 +146,9 @@ export default function Hero() {
           </motion.div>
 
           <motion.h1 initial={revealInitial} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.08, ease: "easeOut" }} className="text-balance text-4xl font-bold leading-[1.1] tracking-[-0.045em] text-slate-950 dark:text-white sm:text-5xl lg:text-[4.25rem]">
-            Build Your <span className="text-blue-800 dark:text-blue-400">Financial Future</span>{" "}with{" "}
-            <span className="relative inline-block align-baseline">
-              <span className="bg-gradient-to-r from-blue-950 via-blue-700 to-indigo-600 bg-clip-text text-transparent dark:from-sky-200 dark:via-blue-400 dark:to-indigo-300">Us</span>
-              <motion.span aria-hidden="true" className="absolute -bottom-1 left-[4%] h-[3px] w-[92%] origin-left rounded-full bg-gradient-to-r from-blue-500 via-sky-400 to-indigo-500 dark:from-sky-400 dark:via-blue-500 dark:to-indigo-400" initial={shouldReduceMotion ? false : { scaleX: 0, opacity: 0 }} animate={{ scaleX: 1, opacity: 1 }} transition={{ duration: 0.9, delay: 0.6, ease: "easeOut" }} />
-            </span>.
+            Build Your <FocusWords>Financial</FocusWords>{" "}
+            <FocusWords>Future</FocusWords>{" "}with{" "}
+            <span className="bg-gradient-to-r from-blue-950 via-blue-700 to-indigo-600 bg-clip-text text-transparent dark:from-sky-200 dark:via-blue-400 dark:to-indigo-300">Us</span>.
           </motion.h1>
 
           <motion.p initial={revealInitial} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.16, ease: "easeOut" }} className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-7 text-slate-600 dark:text-slate-300 sm:mt-7 sm:text-lg sm:leading-8">
@@ -93,10 +156,10 @@ export default function Hero() {
           </motion.p>
 
           <motion.div initial={revealInitial} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.22, ease: "easeOut" }} className="mt-8 flex flex-col justify-center gap-3 sm:mt-9 sm:flex-row">
-            <Link href="/services" className="group inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-blue-900 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-950/10 transition duration-200 hover:-translate-y-0.5 hover:bg-blue-800 hover:shadow-xl hover:shadow-blue-950/15 active:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700 focus-visible:ring-offset-2 dark:bg-blue-700 dark:hover:bg-blue-600 dark:focus-visible:ring-offset-slate-950">
+            <Link href="/#services" className="group inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-blue-900 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-950/10 transition duration-200 hover:-translate-y-0.5 hover:bg-blue-800 hover:shadow-xl hover:shadow-blue-950/15 active:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700 focus-visible:ring-offset-2 dark:bg-blue-700 dark:hover:bg-blue-600 dark:focus-visible:ring-offset-slate-950">
               Explore Our Services <ArrowRight size={16} aria-hidden="true" className="transition-transform duration-200 group-hover:translate-x-0.5" />
             </Link>
-            <Link href="/contact-us" className="inline-flex min-h-12 items-center justify-center rounded-full border border-slate-200 bg-white px-6 py-3 text-sm font-semibold text-slate-800 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:border-blue-200 hover:bg-blue-50/60 active:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700 focus-visible:ring-offset-2 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:hover:border-blue-500 dark:hover:bg-slate-800 dark:focus-visible:ring-offset-slate-950">
+            <Link href="/#contact-us" className="inline-flex min-h-12 items-center justify-center rounded-full border border-slate-200 bg-white px-6 py-3 text-sm font-semibold text-slate-800 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:border-blue-200 hover:bg-blue-50/60 active:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700 focus-visible:ring-offset-2 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:hover:border-blue-500 dark:hover:bg-slate-800 dark:focus-visible:ring-offset-slate-950">
               Talk to Our Team
             </Link>
           </motion.div>

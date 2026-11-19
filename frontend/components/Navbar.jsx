@@ -40,6 +40,10 @@ function ThemeButton({ mobile = false, darkMode, themeReady, toggleTheme }) {
 
 const navLinks = [
   { name: "Home", href: "/" },
+    {
+    name:"Why Choose Us",
+    href: "/#why-choose-us",
+  },
   {
     name: "About Us",
     href: "/#about-us",
@@ -48,10 +52,13 @@ const navLinks = [
       { name: "Our Achievements", href: "/#our-achievements" },
     ],
   },
+  
   {
     name: "Services",
     href: "/#services",
   },
+
+
   {
     name: "Investor Corner",
     href: "/#investor-corner",

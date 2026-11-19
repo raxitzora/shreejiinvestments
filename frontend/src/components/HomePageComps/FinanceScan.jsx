@@ -29,6 +29,16 @@ const rupees = value => `₹${INR.format(value)}`;
 const percent = value => `${Math.round(value)}%`;
 const classNames = (...values) => values.filter(Boolean).join(" ");
 
+
+function FocusWords({ children }) {
+  return (
+    <span className="hero-focus-border relative inline-flex rounded-[0.22em] p-[1.5px] align-baseline">
+      <span className="hero-focus-fill relative inline-block rounded-[0.19em] px-[0.12em] py-[0.015em] leading-[1.13]">
+        {children}
+      </span>
+    </span>
+  );
+}
 function calculate(data) {
   const income=num(data.income), expenses=num(data.expenses), savings=num(data.savings), emi=num(data.emi);
   const surplus=income-expenses-emi;
@@ -116,7 +126,7 @@ function Report({data,result,reduced,onRestart}) {
     <div className="grid gap-5 md:grid-cols-2"><div className="rounded-3xl border border-slate-200 dark:border-slate-700 bg-white dark:border-slate-700 dark:bg-slate-900 p-6 sm:p-7"><h4 className="text-lg font-semibold text-slate-900 dark:text-slate-100">Key insights</h4><ul className="mt-4 space-y-3">{result.insights.map(t=><li key={t} className="text-sm leading-6 text-slate-600 dark:text-slate-300">• {t}</li>)}</ul></div><div className="rounded-3xl border border-slate-200 dark:border-slate-700 bg-white dark:border-slate-700 dark:bg-slate-900 p-6 sm:p-7"><h4 className="text-lg font-semibold text-slate-900 dark:text-slate-100">Personalized next steps</h4><ol className="mt-4 space-y-3">{result.next.map((t,i)=><li key={t} className="flex gap-3 text-sm leading-6 text-slate-600 dark:text-slate-300"><span className="font-semibold text-blue-600 dark:text-blue-400">{i+1}.</span>{t}</li>)}</ol></div></div>
     <p className="text-xs leading-6 text-slate-500 dark:text-slate-400">This assessment is for educational purposes only. It does not assess product suitability, verify insurance coverage, or replace advice from a qualified professional. All calculations were performed locally in your browser.</p>
     <div className="print:hidden flex flex-wrap gap-3"><button type="button" onClick={printReport} className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-blue-600 px-5 font-semibold text-white hover:bg-blue-700"><Download size={18}/> Print / Save as PDF</button><button type="button" onClick={share} className="inline-flex min-h-12 items-center gap-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:border-slate-700 dark:bg-slate-900 px-5 font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 dark:bg-slate-800"><Share2 size={18}/> Share Report</button></div>{feedback&&<p role="status" className="print:hidden text-sm text-slate-600 dark:text-slate-300">{feedback}</p>}
-    <div className="print:hidden rounded-3xl bg-slate-950 px-6 dark:bg-blue-950 py-10 text-center text-white sm:px-12"><h4 className="text-2xl font-semibold sm:text-3xl">Your Financial Future Deserves More Than a Score.</h4><p className="mx-auto mt-3 max-w-2xl text-sm leading-7 text-slate-300">Your financial scan is the starting point. Connect with Shreeji Investments to discuss your goals, understand your options, and explore your next steps.</p><div className="mt-7 flex flex-wrap justify-center gap-3"><Link href="/contact-us" className="inline-flex min-h-12 items-center rounded-xl bg-blue-50 dark:bg-blue-600 px-5 font-semibold text-white hover:bg-blue-400">Book Your Free Consultation <ArrowRight size={17} className="ml-2"/></Link><Link href="/services" className="inline-flex min-h-12 items-center rounded-xl border border-slate-600 dark:border-slate-500 px-5 font-semibold text-white hover:bg-slate-800">Explore Our Services</Link></div></div>
+    <div className="print:hidden rounded-3xl bg-slate-950 px-6 dark:bg-blue-950 py-10 text-center text-white sm:px-12"><h4 className="text-2xl font-semibold sm:text-3xl">Your Financial Future Deserves More Than a Score.</h4><p className="mx-auto mt-3 max-w-2xl text-sm leading-7 text-slate-300">Your financial scan is the starting point. Connect with Shreeji Investments to discuss your goals, understand your options, and explore your next steps.</p><div className="mt-7 flex flex-wrap justify-center gap-3"><Link href="/#contact" className="inline-flex min-h-12 items-center rounded-xl bg-blue-50 dark:bg-blue-600 px-5 font-semibold text-white hover:bg-blue-400">Book Your Free Consultation <ArrowRight size={17} className="ml-2"/></Link><Link href="/#services" className="inline-flex min-h-12 items-center rounded-xl border border-slate-600 dark:border-slate-500 px-5 font-semibold text-white hover:bg-slate-800">Explore Our Services</Link></div></div>
   </motion.div>;
 }
 
@@ -134,35 +144,58 @@ const questions = [
   { key: "reaction", stage: 4, title: "What if your investments dropped by 15%?", subtitle: "This explores your comfort with losses, not an official risk profile.", options: reactions },
 ];
 
-function FinancialGlobe({ reduced = false }) {
-  const spin = reduced ? undefined : { rotate: 360 };
+function InvestmentGrowth({ reduced = false }) {
+  const values = [34, 47, 42, 65, 73, 69, 98, 116, 108, 139, 157, 184];
+  const points = values.map((value, i) => [54 + i * 42, 304 - value * 1.27]);
+  const path = points.map(([x, y], i) => `${i ? "L" : "M"}${x},${y}`).join(" ");
+  const area = `${path} L${points.at(-1)[0]},310 L54,310 Z`;
+  const labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
   return (
-    <div role="img" aria-label="Shreeji Investments premium animated financial globe" className="relative mx-auto flex h-[300px] w-full max-w-[540px] items-center justify-center sm:h-[390px] xl:h-[460px]">
-      <div aria-hidden="true" className="absolute h-[78%] w-[78%] rounded-full bg-blue-300/20 blur-[75px] dark:bg-blue-500/15" />
-      <div aria-hidden="true" className="absolute h-[65%] w-[65%] rounded-full bg-indigo-200/20 blur-[55px] dark:bg-indigo-400/10" />
-      <motion.div aria-hidden="true" className="absolute h-[91%] w-[91%] rounded-full border border-blue-200/70 dark:border-blue-500/25" style={{ rotateX: 67 }} animate={spin} transition={{ duration: 46, ease: "linear", repeat: Infinity }} />
-      <motion.div aria-hidden="true" className="absolute h-[77%] w-[77%] rounded-full border border-dashed border-sky-300/60 dark:border-sky-500/25" style={{ rotateX: 64, rotate: 35 }} animate={reduced ? undefined : { rotate: -325 }} transition={{ duration: 52, ease: "linear", repeat: Infinity }} />
-      <motion.div aria-hidden="true" className="relative flex aspect-square h-[66%] items-center justify-center overflow-hidden rounded-full border border-white/80 bg-[radial-gradient(circle_at_30%_22%,#ffffff_0%,#e9f3ff_37%,#bed9f5_76%,#8eb5e0_100%)] shadow-[inset_-25px_-24px_48px_rgba(30,64,175,.16),0_26px_70px_-35px_rgba(37,99,235,.36)] dark:border-blue-300/15 dark:bg-[radial-gradient(circle_at_30%_22%,#334e78_0%,#172d50_45%,#0b1730_100%)] dark:shadow-[inset_-25px_-24px_48px_rgba(2,6,23,.55),0_26px_75px_-30px_rgba(37,99,235,.18)]" animate={reduced ? undefined : { y: [0, -7, 0] }} transition={{ duration: 6.5, repeat: Infinity, ease: "easeInOut" }}>
-        <div className="pointer-events-none absolute left-[15%] top-[10%] h-[35%] w-[40%] rounded-full bg-white/50 blur-2xl dark:bg-sky-300/10" />
-        <motion.svg aria-hidden="true" viewBox="0 0 400 400" className="absolute inset-0 h-full w-full text-blue-700/35 dark:text-sky-300/35" fill="none" animate={reduced ? undefined : { x: [0, -26, 0] }} transition={{ duration: 18, ease: "easeInOut", repeat: Infinity }}>
-          <circle cx="200" cy="200" r="166" stroke="currentColor" strokeWidth="1.5" />
-          <ellipse cx="200" cy="200" rx="62" ry="166" stroke="currentColor" strokeWidth="1.3" />
-          <ellipse cx="200" cy="200" rx="121" ry="166" stroke="currentColor" strokeWidth="1.3" />
-          <path d="M34 200h332M63 120h274M63 280h274M95 71c55 38 155 38 210 0M95 329c55-38 155-38 210 0" stroke="currentColor" strokeWidth="1.3" />
-          <path d="M48 250 120 226 166 242 224 167 271 185 348 110" stroke="#3b82f6" strokeOpacity=".38" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-        </motion.svg>
-        <div className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-transparent to-blue-950/10 dark:to-slate-950/35" />
-      </motion.div>
-      <motion.div className="absolute z-10 flex min-w-[225px] flex-col items-center rounded-2xl border border-white/80 bg-white/90 px-6 py-4 text-center shadow-[0_20px_55px_-25px_rgba(15,23,42,.28)] backdrop-blur-xl dark:border-slate-600/60 dark:bg-slate-900/90 sm:min-w-[265px] sm:px-8 sm:py-5" animate={reduced ? undefined : { y: [0, -5, 0] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}>
-        <span className="mb-2 h-0.5 w-9 rounded-full bg-gradient-to-r from-sky-300 via-blue-500 to-indigo-400" />
-        <span className="text-xl font-bold tracking-[-.045em] text-slate-950 dark:text-white sm:text-2xl">Shreeji <span className="bg-gradient-to-r from-blue-800 to-indigo-600 bg-clip-text text-transparent dark:from-sky-300 dark:to-indigo-300">Investments</span></span>
-        <span className="mt-2 text-[10px] font-medium tracking-[.09em] text-slate-500 dark:text-slate-300 sm:text-xs">Planning Today. Securing Tomorrow.</span>
-      </motion.div>
-      <motion.div aria-hidden="true" className="absolute left-[7%] top-[18%] flex h-12 w-12 items-center justify-center rounded-2xl border border-blue-100 bg-white/90 text-blue-700 shadow-[0_12px_32px_-15px_rgba(30,58,138,.25)] backdrop-blur-md dark:border-slate-700 dark:bg-slate-800/90 dark:text-sky-300" animate={reduced ? undefined : { y: [0, -10, 0] }} transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}><TrendingUp size={23} strokeWidth={1.7} /></motion.div>
-      <motion.div aria-hidden="true" className="absolute bottom-[16%] right-[8%] flex h-12 w-12 items-center justify-center rounded-2xl border border-blue-100 bg-white/90 text-blue-700 shadow-[0_12px_32px_-15px_rgba(30,58,138,.25)] backdrop-blur-md dark:border-slate-700 dark:bg-slate-800/90 dark:text-sky-300" animate={reduced ? undefined : { y: [0, 9, 0] }} transition={{ duration: 5.8, repeat: Infinity, ease: "easeInOut" }}><ShieldCheck size={23} strokeWidth={1.7} /></motion.div>
-      <div aria-hidden="true" className="absolute bottom-[8%] left-[16%] h-1.5 w-1.5 rounded-full bg-sky-400/70 shadow-[0_0_14px_4px_rgba(56,189,248,.15)]" />
-      <div aria-hidden="true" className="absolute right-[17%] top-[10%] h-2 w-2 rounded-full bg-blue-400/50 shadow-[0_0_14px_4px_rgba(96,165,250,.12)]" />
-    </div>
+    <motion.div
+      role="img"
+      aria-label="Illustrative investment growth dashboard showing a rising but fluctuating portfolio trend over twelve months; not actual returns"
+      initial={reduced ? false : { opacity: 0, y: 26, scale: 0.97 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: true, amount: 0.25 }}
+      transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
+      className="relative mx-auto w-full max-w-[740px] overflow-hidden rounded-[30px] border border-slate-200/80 bg-white p-5 shadow-[0_35px_100px_-45px_rgba(15,23,42,0.35)] dark:border-slate-700/70 dark:bg-[#101e31] sm:p-7 lg:p-8"
+    >
+      <div aria-hidden="true" className="pointer-events-none absolute -right-20 -top-28 h-72 w-72 rounded-full bg-sky-400/10 blur-3xl dark:bg-sky-500/15" />
+      <div className="relative flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-blue-700 dark:text-sky-300">Shreeji Investments</p>
+          <h3 className="mt-2 text-2xl font-bold tracking-tight text-slate-950 dark:text-white sm:text-3xl">The power of long-term growth</h3>
+          <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">A visual journey of disciplined investing</p>
+        </div>
+        <span className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-xs font-semibold text-emerald-700 dark:border-emerald-700/50 dark:bg-emerald-500/10 dark:text-emerald-300">
+          <TrendingUp size={15} /> Illustrative trend
+        </span>
+      </div>
+      <div className="relative mt-7 overflow-hidden rounded-[22px] border border-slate-100 bg-gradient-to-b from-slate-50 to-white px-2 pb-3 pt-5 dark:border-slate-700/60 dark:from-[#152940] dark:to-[#101e31] sm:px-4">
+        <div className="flex items-center justify-between px-3 sm:px-5">
+          <div><p className="text-[11px] font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">Growth trajectory</p><p className="mt-1 text-lg font-bold text-slate-900 dark:text-white sm:text-xl">Invest with purpose</p></div>
+          <div className="text-right"><p className="text-[11px] text-slate-500 dark:text-slate-400">12-month illustration</p><p className="mt-1 text-sm font-semibold text-sky-600 dark:text-sky-300">Long-term perspective</p></div>
+        </div>
+        <svg viewBox="0 0 570 350" className="mt-2 block w-full" aria-hidden="true">
+          <defs>
+            <linearGradient id="shreeji-premium-growth-fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#0ea5e9" stopOpacity="0.32"/><stop offset="100%" stopColor="#0ea5e9" stopOpacity="0.01"/></linearGradient>
+            <linearGradient id="shreeji-premium-growth-line" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stopColor="#2563eb"/><stop offset="100%" stopColor="#22d3ee"/></linearGradient>
+            <filter id="shreeji-premium-growth-glow" x="-30%" y="-50%" width="160%" height="200%"><feGaussianBlur stdDeviation="5"/></filter>
+          </defs>
+          {[65, 125, 185, 245, 305].map(y => <line key={y} x1="48" x2="540" y1={y} y2={y} stroke="currentColor" strokeDasharray="3 7" className="text-slate-200 dark:text-slate-600/60" />)}
+          <motion.path d={area} fill="url(#shreeji-premium-growth-fill)" initial={reduced ? false : { opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 1.1, delay: 0.5 }} />
+          <motion.path d={path} fill="none" stroke="#38bdf8" strokeWidth="10" strokeLinecap="round" strokeLinejoin="round" filter="url(#shreeji-premium-growth-glow)" opacity="0.55" initial={reduced ? false : { pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={{ once: true }} transition={{ duration: 2.8, ease: "easeInOut" }} />
+          <motion.path d={path} fill="none" stroke="url(#shreeji-premium-growth-line)" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round" initial={reduced ? false : { pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={{ once: true }} transition={{ duration: 2.8, ease: "easeInOut" }} />
+          {points.map(([x,y],i) => <motion.circle key={i} cx={x} cy={y} r={i === points.length - 1 ? 6.5 : 3.8} fill="#38bdf8" stroke="#fff" strokeWidth="2" initial={reduced ? false : { opacity: 0, scale: 0 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: 0.18 + i * 0.23, duration: 0.25 }} />)}
+          {labels.map((month,i) => <text key={month} x={points[i][0]} y="337" textAnchor="middle" fontSize="11" fill="currentColor" className="text-slate-500 dark:text-slate-400">{month}</text>)}
+        </svg>
+      </div>
+      <div className="relative mt-5 grid grid-cols-3 gap-2 sm:gap-3">
+        {[{number:"01",title:"Plan",desc:"Set your goals"},{number:"02",title:"Invest",desc:"Stay consistent"},{number:"03",title:"Grow",desc:"Think long term"}].map(item => <div key={item.number} className="rounded-2xl border border-slate-100 bg-slate-50/70 p-3 dark:border-slate-700/70 dark:bg-slate-800/50 sm:p-4"><span className="text-xs font-bold text-sky-600 dark:text-sky-400">{item.number}</span><p className="mt-1 font-semibold text-slate-900 dark:text-white">{item.title}</p><p className="mt-1 text-[11px] leading-4 text-slate-500 dark:text-slate-400 sm:text-xs">{item.desc}</p></div>)}
+      </div>
+      <p className="relative mt-4 text-[11px] leading-5 text-slate-500 dark:text-slate-400">Illustrative chart only. Not historical performance or a projection. Investments carry market risk; returns are not guaranteed.</p>
+    </motion.div>
   );
 }
 
@@ -221,15 +254,14 @@ export default function FinanceScan() {
             <motion.div initial={reduced ? false : { opacity: 0, y: 22 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="grid min-h-[min(760px,calc(100svh-8rem))] w-full items-center gap-12 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,.95fr)] lg:gap-16">
               <div className="max-w-2xl text-center lg:text-left">
               <p className="mt-5 text-xs font-semibold uppercase tracking-[0.2em] text-blue-800 dark:text-blue-300">Your Financial Wellness Starts Here</p>
-              <h2 className="mt-4 max-w-3xl text-balance text-4xl font-bold leading-[1.1] tracking-[-0.045em] text-slate-950 dark:text-slate-50 sm:text-5xl lg:text-[4.25rem]">How Healthy Are Your <span className="text-blue-800 dark:text-blue-300">Finances?</span></h2>
+              <h2 className="mt-4 max-w-3xl text-balance text-4xl font-bold leading-[1.1] tracking-[-0.045em] text-slate-950 dark:text-slate-50 sm:text-5xl lg:text-[4.25rem]">How Healthy Are Your <FocusWords>Finances</FocusWords>?</h2>
               <p className="mt-5 max-w-2xl text-base leading-7 text-slate-600 dark:text-slate-300 sm:text-lg sm:leading-8">Discover where you stand financially, identify potential gaps, and take the first step toward a more confident financial future.</p>
               <button type="button" onClick={() => setIndex(0)} className={`${button} mt-8 w-full sm:w-auto`}>Start My Financial Scan <ArrowRight size={18} /></button>
               <p className="mt-6 text-sm text-slate-500 dark:text-slate-400">About 3–5 minutes · Free · No account required</p>
-              <p className="mt-2 text-xs text-slate-400 dark:text-slate-400">Your answers are processed locally in your browser.</p>
               </div>
-              <div className="relative flex min-h-[320px] items-center justify-center lg:min-h-[min(500px,calc(100svh-9rem))]">
-                <FinancialGlobe reduced={reduced} />
-                <p className="absolute bottom-2 text-xs font-semibold uppercase tracking-[0.18em] text-blue-800/70">Your financial world, in focus</p>
+              <div className="relative flex min-h-[400px] items-center justify-center lg:min-h-[min(580px,calc(100svh-9rem))]">
+                <InvestmentGrowth reduced={reduced} />
+                <p className="absolute -bottom-5 text-xs font-semibold uppercase tracking-[0.18em] text-blue-800/70 dark:text-blue-300/70">Plan today. Build for tomorrow.</p>
               </div>
             </motion.div>
           ) : index === questions.length && report ? (
@@ -278,8 +310,8 @@ export default function FinanceScan() {
                 <button type="button" onClick={advance} className={button}>{index === questions.length - 1 ? "Scan My Finances" : "Continue"} <ArrowRight size={17} /></button>
               </div>
               </div>
-              <aside aria-label="Shreeji Investments financial globe" className="relative flex min-h-[310px] items-center justify-center lg:min-h-[min(500px,calc(100svh-9rem))]">
-                <FinancialGlobe reduced={reduced} />
+              <aside aria-label="Shreeji Investments investment growth illustration" className="relative flex min-h-[400px] items-center justify-center lg:min-h-[min(580px,calc(100svh-9rem))]">
+                <InvestmentGrowth reduced={reduced} />
               </aside>
             </div>
           )}

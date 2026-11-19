@@ -3,6 +3,15 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { Target, TrendingUp, ShieldCheck, Handshake } from "lucide-react";
 
+function FocusWords({ children }) {
+  return (
+    <span className="hero-focus-border relative inline-flex rounded-[0.22em] p-[1.5px] align-baseline">
+      <span className="hero-focus-fill relative inline-block rounded-[0.19em] px-[0.12em] py-[0.015em] leading-[1.13]">
+        {children}
+      </span>
+    </span>
+  );
+}
 const features = [
   { id: "planning", title: "Personalized Financial Planning", description: "Financial strategies shaped around your priorities, aspirations, and long-term goals.", icon: Target, tabletRotation: -2, panel: "bg-amber-50 dark:bg-amber-400/10", iconColor: "text-amber-600 dark:text-amber-300", pin: "from-yellow-300 via-yellow-400 to-amber-500", pinShadow: "shadow-amber-400/30" },
   { id: "goals", title: "Goal-Oriented Approach", description: "Thoughtful investment planning that keeps your financial objectives at the center of every decision.", icon: TrendingUp, tabletRotation: 2, panel: "bg-violet-50 dark:bg-violet-400/10", iconColor: "text-violet-600 dark:text-violet-300", pin: "from-violet-400 via-violet-500 to-purple-700", pinShadow: "shadow-violet-400/30" },
@@ -74,7 +83,7 @@ export default function ChooseUs() {
       <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
         <div className="mx-auto max-w-4xl text-center">
           <motion.h2 id="why-choose-heading" initial={reducedMotion ? false : { opacity: 0, y: 22 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.5 }} transition={{ duration: 0.7, ease: "easeOut" }} className="text-4xl font-semibold leading-[1.15] tracking-tight text-slate-950 dark:text-slate-50 md:text-5xl lg:text-6xl">
-            Why <span className="font-serif italic font-medium text-blue-600 dark:text-blue-400">Choose</span> Shreeji Investments?
+            Why <span className="font-serif  font-medium">Choose</span> <FocusWords>Shreeji Investments?</FocusWords>
           </motion.h2>
           <motion.p initial={reducedMotion ? false : { opacity: 0, y: 14 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.5 }} transition={{ duration: 0.65, delay: reducedMotion ? 0 : 0.15 }} className="mx-auto mt-6 max-w-2xl text-base leading-8 text-slate-600 dark:text-slate-300 md:text-lg">
             Because your financial future deserves thoughtful planning, clear guidance, and a partner who puts your goals first.
